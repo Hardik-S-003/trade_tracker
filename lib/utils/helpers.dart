@@ -214,3 +214,31 @@ class Helpers {
     );
   }
 }
+
+class Validators {
+  static bool isValidAmount(String input) {
+    if (input.isEmpty) return false;
+    
+    try {
+      final value = double.parse(input);
+      return value > 0 && value <= AppConstants.maxAmount;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static bool isValidDate(DateTime date) {
+    final now = DateTime.now();
+    return date.isAfter(DateTime(2000)) && date.isBefore(now);
+  }
+
+  static double calculateProfitFactor(double totalProfit, double totalLoss) {
+    if (totalLoss == 0) return totalProfit > 0 ? double.infinity : 0;
+    return totalProfit / totalLoss.abs();
+  }
+
+  static double calculateRiskRewardRatio(double risk, double reward) {
+    if (risk == 0) return 0;
+    return (reward / risk).abs();
+  }
+}

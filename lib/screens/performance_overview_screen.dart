@@ -25,25 +25,34 @@ class _PerformanceOverviewScreenState extends State<PerformanceOverviewScreen> {
   }
 
   Future<void> _loadData() async {
-    setState(() => isLoading = true);
-    try {
-      List<Trade> loadedTrades = await DatabaseService().getAllTrades();
-      
-      // Filter trades based on selected period
-      loadedTrades = _filterTradesByPeriod(loadedTrades);
-      
-      final calculatedMetrics = TradeMetrics.fromTrades(loadedTrades);
-      
-      setState(() {
-        trades = loadedTrades;
-        metrics = calculatedMetrics;
-        isLoading = false;
-      });
-    } catch (e) {
-      setState(() => isLoading = false);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading data: $e')),
+  setState(() => isLoading = true);
+  try {
+    List<Trade> loadedTrades = await DatabaseService().getAllTrades();
+    
+    // Filter trades based on selected period
+    loadedTrades = _filterTradesByPeriod(loadedTrades);
+    
+    final calculatedMetrics = TradeMetrics.fromTrades(loadedTrades);
+    
+    setState(() {
+      trades = loadedTrades;
+      metrics = calculatedMetrics;
+      isLoading = false;
+    });
+  } catch (e) {
+    setState(() => isLoading = false);
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Unable to load trading data. Please try again later.'),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 4),
+          action: SnackBarAction(
+            label: 'Retry',
+            textColor: Colors.white,
+            onPressed: _loadData,
+            ),
+          ),
         );
       }
     }

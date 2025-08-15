@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'services/database_service.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+void main() async {  WidgetsFlutterBinding.ensureInitialized();
   await DatabaseService().database; // Initialize database
   runApp(const TradeTrackrApp());
 }
