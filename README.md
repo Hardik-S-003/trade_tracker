@@ -1,5 +1,4 @@
-# trade_tracker
-# trade_trackr
+# Trade Tracker
 
 A new Flutter project.
 
